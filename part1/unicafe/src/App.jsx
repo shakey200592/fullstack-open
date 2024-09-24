@@ -1,5 +1,22 @@
 import { useState } from "react";
 
+function Statistics({ feedback }) {
+  if (feedback.getTotalFeedback() > 0) {
+    return (
+      <>
+        <p>Good: {feedback.good}</p>
+        <p>Neutral: {feedback.neutral}</p>
+        <p>Bad: {feedback.bad}</p>
+        <p>Total: {feedback.getTotalFeedback()}</p>
+        <p>Average: {feedback.getAverage()}</p>
+        <p>Total Positive: {feedback.getTotalPositive()}%</p>
+      </>
+    );
+  } else {
+    return <p>No Feedback Given</p>;
+  }
+}
+
 function App() {
   const [feedback, setFeedback] = useState({
     good: 0,
@@ -36,12 +53,7 @@ function App() {
       <button onClick={handleBadFeedback}>Bad</button>
 
       <h2>Statistics</h2>
-      <p>Good: {feedback.good}</p>
-      <p>Neutral: {feedback.neutral}</p>
-      <p>Bad: {feedback.bad}</p>
-      <p>Total: {feedback.getTotalFeedback()}</p>
-      <p>Average: {feedback.getAverage()}</p>
-      <p>Total Positive: {feedback.getTotalPositive()}%</p>
+      <Statistics feedback={feedback}></Statistics>
     </>
   );
 }
