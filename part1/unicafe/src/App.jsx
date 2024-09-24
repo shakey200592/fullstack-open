@@ -1,20 +1,43 @@
 import { useState } from "react";
 
-function Statistics({ feedback }) {
-  if (feedback.getTotalFeedback() > 0) {
+function Button({ buttonEventHandler, text }) {
+  return <button onClick={buttonEventHandler}>{text}</button>;
+}
+
+function Statistics({ value }) {
+  if (value.getTotalFeedback() > 0) {
     return (
       <>
-        <p>Good: {feedback.good}</p>
-        <p>Neutral: {feedback.neutral}</p>
-        <p>Bad: {feedback.bad}</p>
-        <p>Total: {feedback.getTotalFeedback()}</p>
-        <p>Average: {feedback.getAverage()}</p>
-        <p>Total Positive: {feedback.getTotalPositive()}%</p>
+        <StatisticLine text="Good" value={value.good}></StatisticLine>
+        <StatisticLine text="Neutral" value={value.neutral}></StatisticLine>
+        <StatisticLine text="Bad" value={value.bad}></StatisticLine>
+        <StatisticLine
+          text="Total"
+          value={value.getTotalFeedback()}
+        ></StatisticLine>
+        <StatisticLine
+          text="Average"
+          value={value.getAverage()}
+        ></StatisticLine>
+        <StatisticLine
+          text="Total Positive"
+          value={value.getTotalPositive()}
+        ></StatisticLine>
       </>
     );
   } else {
     return <p>No Feedback Given</p>;
   }
+}
+
+function StatisticLine({ text, value }) {
+  return (
+    <>
+      <p>
+        {text}: {value}
+      </p>
+    </>
+  );
 }
 
 function App() {
@@ -48,12 +71,15 @@ function App() {
   return (
     <>
       <h2>Give Feedback Below</h2>
-      <button onClick={handleGoodFeedback}>Good</button>
-      <button onClick={handleNeutralFeedback}>Neutral</button>
-      <button onClick={handleBadFeedback}>Bad</button>
+      <Button text="Good" buttonEventHandler={handleGoodFeedback}></Button>
+      <Button
+        text="Neutral"
+        buttonEventHandler={handleNeutralFeedback}
+      ></Button>
+      <Button text="Bad" buttonEventHandler={handleBadFeedback}></Button>
 
       <h2>Statistics</h2>
-      <Statistics feedback={feedback}></Statistics>
+      <Statistics value={feedback}></Statistics>
     </>
   );
 }
